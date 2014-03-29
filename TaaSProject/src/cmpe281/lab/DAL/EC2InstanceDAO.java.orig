@@ -1,0 +1,216 @@
+package cmpe281.lab.DAL;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
+import cmpe281.lab.Model.EC2Instance;
+
+public class EC2InstanceDAO {	
+	
+	public void create(EC2Instance item) {		
+
+		String sql = "insert into TaaSTestLabDb.EC2Instance (Name,InstanceId,Status,Type) values (?, ?,?,?)";
+
+		Connection conn = MySQLConnection.getInstance();
+		if(conn!=null)
+		{
+			try {			
+				PreparedStatement prepare = conn.prepareStatement(sql);
+				prepare.setString(1, item.getName());
+				prepare.setString(2, item.getInstanceId());
+
+				prepare.setString(3, item.getStatus());				
+				prepare.setString(4, item.getType());
+				prepare.executeUpdate();			
+				conn.close();
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (conn != null) {
+					try {
+						conn.close();			
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}		
+		}
+				
+	}
+	
+<<<<<<< mine
+	public void update(EC2Instance item) {
+		String sql = "UPDATE TaaSTestLabDb.EC2Instance Name = ?, Status = ? WHERE Id = ?";
+		Connection conn = MySQLConnection.getInstance();
+		if (conn != null) {
+			try {
+				PreparedStatement prepare = conn.prepareStatement(sql);
+				prepare.setString(1, item.getName());
+				prepare.setString(2, item.getStatus());
+				prepare.setInt(3, item.getId());
+				prepare.executeUpdate();
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (conn != null) {
+					try {
+						conn.close();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+	
+	public void delete(int id) {
+		String sql = "delete from TaasTestLabDb.EC2Instance where Id = ?";
+=======
+	public void delete(String InstanceId) {
+		String sql = "delete from TaasTestLabDb.EC2Instance where InstanceId = ?";
+>>>>>>> theirs
+		Connection conn = MySQLConnection.getInstance();
+		if(conn != null)
+		{
+			try {						
+				PreparedStatement prepare = conn.prepareStatement(sql);
+				prepare.setString(1, InstanceId);
+				prepare.executeUpdate();					
+				conn.close();
+			}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (conn != null) {
+					try {
+						conn.close();			
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+		
+	}
+	
+	public EC2Instance getByName(String name) {
+		EC2Instance temp = null;
+		String sql = "SELECT * FROM TaaSTestLabDb.EC2Instance WHERE Name = ?";
+		Connection conn = MySQLConnection.getInstance();
+		if (conn != null) {
+			try {
+				PreparedStatement prepare = conn.prepareStatement(sql);
+				prepare.setString(1, name);
+				ResultSet rs = prepare.executeQuery();
+				if (rs.first()) {
+					temp = new EC2Instance();
+					temp.setId(rs.getInt("Id"));
+					temp.setName(rs.getString("Name"));
+					temp.setInstanceId(rs.getString("InstanceId"));					
+					temp.setStatus(rs.getString("Status"));					
+				}
+				conn.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				if (conn != null) {
+					try {
+						conn.close();			
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		return temp;
+	}
+	
+	public List<EC2Instance> getAll()
+	{
+		List<EC2Instance> tempCollection = new ArrayList<EC2Instance>();
+		Connection conn = MySQLConnection.getInstance();
+		if(conn != null)
+		{
+			try
+			{									
+				Statement sqlStatement = conn.createStatement();
+				String query = "select * from TaaSTestLabDb.EC2Instance";
+				ResultSet resultset = sqlStatement.executeQuery(query);
+				while (resultset.next()) 
+				{
+					EC2Instance temp = new EC2Instance();
+					temp.setId(resultset.getInt("Id"));
+					temp.setName(resultset.getString("Name"));
+
+					temp.setInstanceId(resultset.getString("InstanceId"));					
+					temp.setStatus(resultset.getString("Status"));
+					temp.setType(resultset.getString("Type"));
+					
+					tempCollection.add(temp);
+				}
+				conn.close();
+			} catch (Exception ex) {
+				
+			} 
+			finally {
+				if (conn != null) {
+					try {
+						conn.close();			
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+		
+		return tempCollection;
+	}
+
+	public List<EC2Instance> getAvailableInstance()
+	{
+		List<EC2Instance> tempCollection = new ArrayList<EC2Instance>();
+		List<EC2Instance> allInstance = getAll();
+		for(EC2Instance item:allInstance)
+		{
+			//if(item.getStatus() == 0)
+			//{
+				tempCollection.add(item);
+			//}
+		}
+				
+		return tempCollection;
+	}
+	
+	public void UpdateStatus(String InstanceId,int Status)
+	{
+		String sql = "update TaaSTestLabDb.EC2Instance set Status = ? where InstanceId = ?";
+		Connection conn = MySQLConnection.getInstance();
+		if(conn!=null)
+		{
+			try {
+				
+				PreparedStatement prepare = conn.prepareStatement(sql);				
+				prepare.setInt(1, 1);
+				prepare.setString(2, InstanceId);				
+				prepare.executeUpdate();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			finally {
+				if (conn != null) {
+					try {
+						conn.close();			
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+	}
+}

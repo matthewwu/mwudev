@@ -1,0 +1,78 @@
+body {
+	background: #eee;
+	font-family: Arial, sans-serif;
+	font-size: .8em;
+}
+
+a, a:visited {
+	text-decoration: none;
+	color: #ff3300;
+}
+
+a:hover {
+	color: grey;
+	text-decoration: underline;
+}
+
+#page {
+	background: white;
+	width: 880px;
+	margin: 20px auto;
+	padding: 20px;
+	border: 1px solid #ccc;
+}
+
+#page h1 {
+	margin: 0;
+	font-variant: small-caps;
+}
+
+p.msg {
+	clear: both;
+	text-align: center;
+	background: #E0FFE0;
+	border: 1px solid #66FF33;
+	padding: 10px;
+	width: 70%;
+	margin: 20px auto;
+}
+
+form table td {
+	border: none;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+td, th {
+	border: 1px solid #ccc;
+	padding: .5em 1em;
+}
+
+#nav {
+	float: left;
+	width: 100%;
+	padding: 0;
+	margin: 1em 0;
+	list-style-type: none;
+	text-align: center;
+}
+
+#nav li {
+	display: inline;
+}
+
+#nav a {
+	float: left;
+	width: 10em;
+	text-decoration: none;
+	color: white;
+	background-color: grey;
+	padding: .5em .6em;
+	border-right: 1px solid white;
+}
+
+#nav a:hover {
+	background-color: #ff3300;
+}
